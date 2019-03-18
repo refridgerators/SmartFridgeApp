@@ -1,0 +1,19 @@
+{
+    "bentley": {
+        "awscloudformation": {
+            "AuthRoleName": "smartfridgeapp-20190318173326-authRole",
+            "UnauthRoleArn": "arn:aws:iam::253003926364:role/smartfridgeapp-20190318173326-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::253003926364:role/smartfridgeapp-20190318173326-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "smartfridgeapp-20190318173326-deployment",
+            "UnauthRoleName": "smartfridgeapp-20190318173326-unauthRole",
+            "StackName": "smartfridgeapp-20190318173326",
+            "StackId": "arn:aws:cloudformation:us-east-1:253003926364:stack/smartfridgeapp-20190318173326/767f25e0-49c5-11e9-bc95-0e639cbb91d4"
+        },
+        "categories": {
+            "auth": {
+                "cognito0c543cad": {}
+            }
+        }
+    }
+}

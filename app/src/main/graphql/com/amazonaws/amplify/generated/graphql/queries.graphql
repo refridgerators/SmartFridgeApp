@@ -1,0 +1,24 @@
+# this is an auto generated file. This will be overwritten
+query GetFoodItem($id: ID!) {
+  getFoodItem(id: $id) {
+    id
+    date
+    name
+    description
+  }
+}
+query ListFoodItems(
+  $filter: ModelFoodItemFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listFoodItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      date
+      name
+      description
+    }
+    nextToken
+  }
+}

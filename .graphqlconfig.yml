@@ -1,0 +1,16 @@
+projects:
+  smartfridgeapp:
+    schemaPath: app\src\main\graphql\schema.json
+    includes:
+      - app\src\main\graphql\**\*.graphql
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: ''
+        generatedFileName: ''
+        docsFilePath: app\src\main\graphql\com\amazonaws\amplify\generated\graphql
+        graphQLApiId: pdtxyz6rd5djleliii7mivmu3e
+      endpoints:
+        prod: >-
+          https://fp4mpvoz7fce7pey7otp3t6v5u.appsync-api.us-east-1.amazonaws.com/graphql

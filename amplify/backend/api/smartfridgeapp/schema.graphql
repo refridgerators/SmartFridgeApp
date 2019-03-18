@@ -1,0 +1,10 @@
+type FoodItem 
+	@model
+	@auth(rules:[{allow: owner}])
+{
+	id: ID!
+	date: String!
+	name: String!
+	description: String!
+	
+}

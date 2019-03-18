@@ -1,0 +1,25 @@
+# this is an auto generated file. This will be overwritten
+mutation CreateFoodItem($input: CreateFoodItemInput!) {
+  createFoodItem(input: $input) {
+    id
+    date
+    name
+    description
+  }
+}
+mutation UpdateFoodItem($input: UpdateFoodItemInput!) {
+  updateFoodItem(input: $input) {
+    id
+    date
+    name
+    description
+  }
+}
+mutation DeleteFoodItem($input: DeleteFoodItemInput!) {
+  deleteFoodItem(input: $input) {
+    id
+    date
+    name
+    description
+  }
+}
