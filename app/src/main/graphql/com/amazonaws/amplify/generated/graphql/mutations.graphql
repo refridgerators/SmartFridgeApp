@@ -5,6 +5,7 @@ mutation CreateFoodItem($input: CreateFoodItemInput!) {
     date
     name
     description
+    quantity
   }
 }
 mutation UpdateFoodItem($input: UpdateFoodItemInput!) {
@@ -13,6 +14,7 @@ mutation UpdateFoodItem($input: UpdateFoodItemInput!) {
     date
     name
     description
+    quantity
   }
 }
 mutation DeleteFoodItem($input: DeleteFoodItemInput!) {
@@ -21,5 +23,6 @@ mutation DeleteFoodItem($input: DeleteFoodItemInput!) {
     date
     name
     description
+    quantity
   }
 }

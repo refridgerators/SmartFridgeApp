@@ -5,6 +5,7 @@ query GetFoodItem($id: ID!) {
     date
     name
     description
+    quantity
   }
 }
 query ListFoodItems(
@@ -18,6 +19,7 @@ query ListFoodItems(
       date
       name
       description
+      quantity
     }
     nextToken
   }
