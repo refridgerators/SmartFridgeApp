@@ -1,8 +1,18 @@
 package com.example.smartfridgeapp;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.amazonaws.amplify.generated.graphql.ListFoodItemsQuery;
 import com.amazonaws.mobile.client.AWSMobileClient;
@@ -20,29 +30,70 @@ import javax.annotation.Nonnull;
 
 public class MainActivity extends AppCompatActivity {
     //private AWSAppSyncClient mAWSAppSyncClient;
+    RecyclerView mRecyclerView;
+    GraphqlAdapter mAdapter;
+    private ActionBarDrawerToggle toggle;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
     private ArrayList<ListFoodItemsQuery.Item> mFoodItems;
     private final String TAG = MainActivity.class.getSimpleName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /* Set up nav menu*/
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.Open, R.string.Close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        toggle.setDrawerIndicatorEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch(id)
+                {
+                    case R.id.nav_logout:
+                        AWSMobileClient.getInstance().signOut();
+                        Intent i = new Intent(MainActivity.this, AuthenticatorActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    default:
+                        return true;
+                }
 
-        /*mAWSAppSyncClient = AWSAppSyncClient.builder()
-                .context(getApplicationContext())
-                .awsConfiguration(new AWSConfiguration(getApplicationContext()))
-                .cognitoUserPoolsAuthProvider(new CognitoUserPoolsAuthProvider() {
-                    @Override
-                    public String getLatestAuthToken() {
-                        try {
-                            return AWSMobileClient.getInstance().getTokens().getIdToken().getTokenString();
-                        } catch (Exception e){
-                            Log.e("APPSYNC_ERROR", e.getLocalizedMessage());
-                            return e.getLocalizedMessage();
-                        }
-                    }
-                }).build();*/
+            }
+        });
+
+        mRecyclerView = findViewById(R.id.main_recycler_view);
+
+        // use a linear layout manager
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // specify an adapter (see also next example)
+        mAdapter = new GraphqlAdapter(this);
+        mRecyclerView.setAdapter(mAdapter);
         ClientFactory.init(this);
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(toggle.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Query list data when we return to the screen
+        queryFoodList();
+    }
+
 
     /**Query for list of food items here
       **/
@@ -62,9 +113,10 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    //update the list view data set here
-                    //mAdapter.setItems(mPets);
-                    //mAdapter.notifyDataSetChanged();
+
+                    mAdapter.setItems(mFoodItems);
+                    mAdapter.notifyDataSetChanged();
+
                 }
             });
         }
