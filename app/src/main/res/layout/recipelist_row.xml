@@ -16,7 +16,7 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/food_photo"
+            android:id="@+id/recipe_photo"
             android:layout_width="99dp"
             android:layout_height="97dp"
             android:layout_alignParentStart="true"
@@ -27,7 +27,7 @@
             android:layout_marginRight="16dp" />
 
         <TextView
-            android:id="@+id/food_text"
+            android:id="@+id/recipe_title"
             android:layout_width="243dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -38,7 +38,7 @@
             android:textSize="30sp" />
 
         <TextView
-            android:id="@+id/quantity_text"
+            android:id="@+id/food_num_text"
             android:layout_width="115dp"
             android:layout_height="38dp"
             android:layout_alignParentStart="true"
@@ -49,7 +49,7 @@
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/date_text"
+            android:id="@+id/like_text"
             android:layout_width="126dp"
             android:layout_height="38dp"
             android:layout_alignParentStart="true"

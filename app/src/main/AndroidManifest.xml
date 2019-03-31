@@ -15,10 +15,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
-
-        <activity android:name=".MainActivity"></activity>
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".RecipeActivity"
+            android:label="@string/title_activity_recipe"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".MainActivity" />
 
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 

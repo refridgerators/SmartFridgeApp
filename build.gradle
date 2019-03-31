@@ -4,9 +4,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+
     }
     dependencies {
+        //JSON/REST
         classpath 'com.android.tools.build:gradle:3.3.1'
         classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.7.+'
         // NOTE: Do not place your application dependencies here; they belong
@@ -18,7 +19,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
     }
 }
 
