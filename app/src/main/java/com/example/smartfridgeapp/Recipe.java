@@ -2,9 +2,10 @@ package com.example.smartfridgeapp;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Recipe {
-
-
     @SerializedName("id")
     private int id;
     @SerializedName("title")
@@ -17,18 +18,8 @@ public class Recipe {
     private int missedIngredientCount;
     @SerializedName("likes")
     private int likes;
-
-    public Recipe() {
-    }
-
-    public Recipe(int id, String title, String image, int usedIngredientCount, int missedIngredientCount, int likes) {
-        this.id = id;
-        this.title = title;
-        this.image = image;
-        this.usedIngredientCount = usedIngredientCount;
-        this.missedIngredientCount = missedIngredientCount;
-        this.likes = likes;
-    }
+    @SerializedName("missedIngredients")
+    private List<Ingredient> missedIngredients;
 
     public int getId() {
         return id;
@@ -77,4 +68,20 @@ public class Recipe {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+    public List<Ingredient> getMissedIngredients() {
+        return missedIngredients;
+    }
+
+    public void setMissedIngredients(List<Ingredient> missedIngredients) {
+        this.missedIngredients = missedIngredients;
+    }
+    /*
+    public ArrayList<Ingredient> getUsedIngredients() {
+        return usedIngredients;
+    }
+
+    public void setUsedIngredients(ArrayList<Ingredient> usedIngredients) {
+        this.usedIngredients = usedIngredients;
+    }*/
 }

@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_recipes:
                         i = new Intent(MainActivity.this, RecipeActivity.class);
                         startActivity(i);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
                     case R.id.nav_logout:
                         AWSMobileClient.getInstance().signOut();
