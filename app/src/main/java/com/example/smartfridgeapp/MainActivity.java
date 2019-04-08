@@ -1,7 +1,10 @@
 package com.example.smartfridgeapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -30,6 +33,8 @@ import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
 
+import static com.amazonaws.mobile.client.AWSMobileClient.getInstance;
+
 public class MainActivity extends AppCompatActivity {
     //private AWSAppSyncClient mAWSAppSyncClient;
     RecyclerView mRecyclerView;
@@ -44,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("display_name", AWSMobileClient.getInstance().getUsername());
+        editor.commit();
         /* Set up refresher*/
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -74,6 +83,11 @@ public class MainActivity extends AppCompatActivity {
                 {
                     case R.id.nav_recipes:
                         i = new Intent(MainActivity.this, RecipeActivity.class);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.nav_settings:
+                        i = new Intent(MainActivity.this, SettingsActivity.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;

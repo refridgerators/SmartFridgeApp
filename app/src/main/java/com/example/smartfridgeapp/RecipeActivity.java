@@ -31,8 +31,8 @@ import retrofit2.http.Url;
 
 public class RecipeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private RecipeAdapter adapter;
     public static HashSet<String> currentSet;
+    private RecipeAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
