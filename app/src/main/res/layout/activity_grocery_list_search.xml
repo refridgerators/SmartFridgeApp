@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipe_list_search_layout"
+    android:name="com.example.smartfridgeapp.GroceryListSearch"
+    tools:context=".GroceryListSearch"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <AutoCompleteTextView
+            android:id="@+id/multiAutoCompleteTextView"
+            android:layout_width="136dp"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/quantity_text"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number" />
+
+        <AutoCompleteTextView
+            android:id="@+id/multiAutoCompleteTextView3"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/grocery_list_search_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="addtoList"
+        android:text="Add Item" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/grocery_list_serach_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/grocery_list_item" />
+
+</LinearLayout>

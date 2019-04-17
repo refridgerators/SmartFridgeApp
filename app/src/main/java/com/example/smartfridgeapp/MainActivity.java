@@ -4,27 +4,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.amazonaws.amplify.generated.graphql.ListFoodItemsQuery;
 import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
-import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
@@ -32,8 +26,6 @@ import com.apollographql.apollo.exception.ApolloException;
 import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
-
-import static com.amazonaws.mobile.client.AWSMobileClient.getInstance;
 
 public class MainActivity extends AppCompatActivity {
     //private AWSAppSyncClient mAWSAppSyncClient;
@@ -81,13 +73,22 @@ public class MainActivity extends AppCompatActivity {
                 Intent i;
                 switch(id)
                 {
+                    case R.id.nav_grocery_list:
+                        startActivity(new Intent(MainActivity.this, GroceryActivity.class));
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
                     case R.id.nav_recipes:
                         i = new Intent(MainActivity.this, RecipeActivity.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;
-                    case R.id.nav_settings:
-                        i = new Intent(MainActivity.this, SettingsActivity.class);
+                    case R.id.nav_account:
+                        i = new Intent(MainActivity.this, AccountActivity.class);
+                        startActivity(i);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        return true;
+                    case R.id.nav_preferences:
+                        i = new Intent(MainActivity.this, GroceryListSearch.class);
                         startActivity(i);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         return true;

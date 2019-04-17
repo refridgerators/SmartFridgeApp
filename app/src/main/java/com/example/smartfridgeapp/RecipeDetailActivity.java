@@ -2,9 +2,12 @@ package com.example.smartfridgeapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +21,9 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,10 +38,15 @@ import retrofit2.http.Query;
 public class RecipeDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecipeDetailAdapter adapter;
+    private SharedPreferences.Editor editor;
+    private Set<String> prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        editor = settings.edit();
+        prefs = PreferenceManager.getDefaultSharedPreferences(this).getStringSet("grocery_prefs", new HashSet<String>());
         int id = getIntent().getIntExtra("id", 0);
         Toast.makeText(this, id + "", Toast.LENGTH_SHORT).show();
         Retrofit retrofit = new Retrofit.Builder()
@@ -72,6 +82,22 @@ public class RecipeDetailActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(RecipeDetailActivity.this, 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, recyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        CardView cv = view.findViewById(R.id.cv);
+                        Ingredient i = adapter.ingredientList.get(position);
+                        String s = i.getName() + "," + Math.round(i.getAmount()) + "," + i.getUnit();
+                        prefs.add(s);
+                        cv.setBackgroundColor(ContextCompat.getColor(getBaseContext(),R.color.design_default_color_primary));
+                        Toast.makeText(getBaseContext(), "Added " + i.getName() + " to preferences", Toast.LENGTH_SHORT).show();
+                    }
+                })
+        );
         TextView rtv = findViewById(R.id.recipe_txt);
         rtv.setText(rp.getInstructions());
     }
@@ -126,6 +152,16 @@ public class RecipeDetailActivity extends AppCompatActivity {
             Picasso.get().load(R.drawable.crossmark).fit().into(iv8);
         }
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        editor.remove("grocery_prefs");
+        editor.apply();
+        editor.putStringSet("grocery_prefs", prefs);
+        editor.apply();
+    }
+
     @Override
     public void finish() {
         super.finish();
@@ -142,7 +178,7 @@ interface RecipeDetailService {
 
 class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.ViewHolder> {
 
-    private List<Ingredient> ingredientList;
+    public List<Ingredient> ingredientList;
     private Context context;
     private LayoutInflater mInflater;
 
@@ -179,18 +215,18 @@ class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.ViewH
     // stores and recycles views as they are scrolled off screen
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView txt_ingredient;
-
+        CardView cardView;
         ViewHolder(View itemView) {
             super(itemView);
             txt_ingredient = itemView.findViewById(R.id.ingredient_txt);
-
+            cardView = itemView.findViewById(R.id.cv);
         }
         void bindData (Ingredient ingredient){
             txt_ingredient.setText(ingredient.getOriginalString());
             if(RecipeActivity.currentSet.contains(ingredient.getName())){
-                txt_ingredient.setBackgroundColor(ContextCompat.getColor(context,R.color.red));
+                cardView.setBackgroundColor(ContextCompat.getColor(context,R.color.red));
             }else{
-                txt_ingredient.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
+                cardView.setBackgroundColor(ContextCompat.getColor(context,R.color.green));
             }
         }
     }

@@ -5,6 +5,6 @@ type FoodItem
 	id: ID!
 	date: String!
 	name: String!
-	description: String
-	quantity: Int
+	unit: String
+	quantity: Float
 }

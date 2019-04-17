@@ -30,6 +30,7 @@ public class GraphqlAdapter extends RecyclerView.Adapter<GraphqlAdapter.ViewHold
         return new ViewHolder(view);
     }
 
+
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
@@ -50,7 +51,6 @@ public class GraphqlAdapter extends RecyclerView.Adapter<GraphqlAdapter.ViewHold
     // stores and recycles views as they are scrolled off screen
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView txt_name;
-
         TextView txt_date;
         TextView txt_quantity;
 
