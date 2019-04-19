@@ -65,10 +65,9 @@ public class GraphqlAdapter extends RecyclerView.Adapter<GraphqlAdapter.ViewHold
             txt_name.setText(item.name());
             txt_date.setText(item.date());
             if(item.quantity() == null){
-
                 txt_quantity.setText("1");
             }else {
-                txt_quantity.setText(item.quantity() + "");
+                txt_quantity.setText(item.quantity() + " " + item.description());
             }
 
         }

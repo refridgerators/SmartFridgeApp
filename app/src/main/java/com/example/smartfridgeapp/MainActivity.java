@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.amazonaws.amplify.generated.graphql.ListFoodItemsQuery;
 import com.amazonaws.mobile.client.AWSMobileClient;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     //private AWSAppSyncClient mAWSAppSyncClient;
     RecyclerView mRecyclerView;
     GraphqlAdapter mAdapter;
+    TextView st;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mRecyclerView = findViewById(R.id.main_recycler_view);
-
+        st = findViewById(R.id.main_stats);
         // use a linear layout manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
+                    st.setText("Number of Items: " + mFoodItems.size());
                     mAdapter.setItems(mFoodItems);
                     mAdapter.notifyDataSetChanged();
 

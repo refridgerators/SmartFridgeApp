@@ -9,11 +9,14 @@
     >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="80dp"
         android:layout_marginBottom="15dp"
-        android:background="@mipmap/ic_launcher_round" />
+        android:adjustViewBounds="true"
+        android:background="@drawable/logo"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/testSettings"

@@ -63,7 +63,8 @@ public class AuthenticatorActivity extends AppCompatActivity {
     private void showSignIn() {
         try {
             AWSMobileClient.getInstance().showSignIn(this,
-                    SignInUIOptions.builder().nextActivity(MainActivity.class).build());
+                    SignInUIOptions.builder().logo(R.drawable.logo_2)
+                            .backgroundColor(R.color.colorPrimary).nextActivity(MainActivity.class).build());
         } catch (Exception e) {
             Log.e(TAG, e.toString());
         }
