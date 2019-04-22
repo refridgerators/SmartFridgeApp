@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SmartFridgeApp</string>
+    <string name="app_name">Koolist</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
     <string name="title_activity_recipe">RecipeActivity</string>

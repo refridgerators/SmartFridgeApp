@@ -15,18 +15,31 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amazonaws.amplify.generated.graphql.CreateFoodItemMutation;
+import com.amazonaws.amplify.generated.graphql.DeleteFoodItemMutation;
 import com.amazonaws.amplify.generated.graphql.ListFoodItemsQuery;
+import com.amazonaws.amplify.generated.graphql.UpdateFoodItemMutation;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Nonnull;
+
+import type.CreateFoodItemInput;
+import type.DeleteFoodItemInput;
+import type.UpdateFoodItemInput;
 
 public class MainActivity extends AppCompatActivity {
     //private AWSAppSyncClient mAWSAppSyncClient;
@@ -75,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent i;
                 switch(id)
                 {
+                    case R.id.add_grocery_item:
+                        i = new Intent(MainActivity.this, AddGroceryItem.class);
+                        i.putExtra("edit",true);
+                        startActivity(i);
+                        return true;
                     case R.id.nav_grocery_list:
                         startActivity(new Intent(MainActivity.this, GroceryActivity.class));
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -116,6 +134,27 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new GraphqlAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
         ClientFactory.init(this);
+
+
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Toast.makeText(getBaseContext(), " " + position, Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(MainActivity.this, EditGroceryItem.class);
+                        i.putExtra("edit",true);
+                        i.putExtra("id",mAdapter.getmData().get(position).id());
+                        i.putExtra("name",mAdapter.getmData().get(position).name());
+                        i.putExtra("quantity",mAdapter.getmData().get(position).quantity());
+                        i.putExtra("unit",mAdapter.getmData().get(position).description());
+                        startActivity(i);
+                        //mAdapter.getmData().get(1).id(); get id
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
     }
 
 
@@ -158,6 +197,113 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.setItems(mFoodItems);
                     mAdapter.notifyDataSetChanged();
 
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e(TAG, e.toString());
+        }
+
+    };
+
+    /**
+     * Mutation create grocery item
+     */
+
+    public void updateAdd(String name, int quantity, String unit){
+        DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        Date date = new Date();
+        CreateFoodItemInput input = CreateFoodItemInput.builder().name(name).date(dateFormat.format(date))
+                .quantity(quantity).description(unit).build();
+
+        CreateFoodItemMutation addFoodItem = CreateFoodItemMutation.builder().input(input).build();
+
+        ClientFactory.appSyncClient().mutate(addFoodItem).enqueue(additemCallback);
+    }
+
+    private GraphQLCall.Callback<CreateFoodItemMutation.Data> additemCallback = new GraphQLCall.Callback<CreateFoodItemMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<CreateFoodItemMutation.Data> response) {
+
+
+            Log.i(TAG, "response " + response.data().toString());
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //onResume() calls querylist to update list
+                    onResume();
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e(TAG, e.toString());
+        }
+    };
+
+    /**
+     * Mutation delete grocery item
+     */
+
+    public void updateQuantity(String id, int quantity){
+
+        UpdateFoodItemInput input = UpdateFoodItemInput.builder().id(id).quantity(quantity).build();
+
+        UpdateFoodItemMutation updateFoodItem = UpdateFoodItemMutation.builder().input(input).build();
+
+        ClientFactory.appSyncClient().mutate(updateFoodItem).enqueue(updateitemCallback);
+    }
+
+    private GraphQLCall.Callback<UpdateFoodItemMutation.Data> updateitemCallback = new GraphQLCall.Callback<UpdateFoodItemMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<UpdateFoodItemMutation.Data> response) {
+
+
+            Log.i(TAG, "response " + response.data().toString());
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onResume();
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(@Nonnull ApolloException e) {
+            Log.e(TAG, e.toString());
+        }
+    };
+
+    /**
+     * Mutation delete grocery item
+     */
+
+    public void updateDelete(String id){
+
+        DeleteFoodItemInput input = DeleteFoodItemInput.builder().id(id).build();
+
+        DeleteFoodItemMutation addFoodItem = DeleteFoodItemMutation.builder().input(input).build();
+
+        ClientFactory.appSyncClient().mutate(addFoodItem).enqueue(deleteitemCallback);
+    }
+
+
+    private GraphQLCall.Callback<DeleteFoodItemMutation.Data> deleteitemCallback = new GraphQLCall.Callback<DeleteFoodItemMutation.Data>() {
+        @Override
+        public void onResponse(@Nonnull Response<DeleteFoodItemMutation.Data> response) {
+
+
+            Log.i(TAG, "response " + response.data().toString());
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    onResume();
                 }
             });
         }

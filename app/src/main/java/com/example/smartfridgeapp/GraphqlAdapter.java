@@ -14,6 +14,10 @@ import java.util.List;
 
 public class GraphqlAdapter extends RecyclerView.Adapter<GraphqlAdapter.ViewHolder> {
 
+    public List<ListFoodItemsQuery.Item> getmData() {
+        return mData;
+    }
+
     private List<ListFoodItemsQuery.Item> mData = new ArrayList<>();;
     private LayoutInflater mInflater;
 

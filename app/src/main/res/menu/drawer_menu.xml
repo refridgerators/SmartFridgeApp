@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <item
+        android:id="@+id/add_grocery_item"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="Add Grocery Item" />
     <item
         android:id="@+id/nav_grocery_list"
         android:icon="@drawable/ic_view_list_black_24dp"
