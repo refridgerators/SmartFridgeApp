@@ -82,6 +82,12 @@ public class GroceryListSearch extends AppCompatActivity{
         editor.apply();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     public void addtoList(View view){
         String listItem = mtv.getText().toString()+ "," + qtv.getText().toString() + "," + mtv3.getText().toString();
         adapter.mValues.add(new Item(mtv.getText().toString(), Integer.parseInt(qtv.getText().toString()) , mtv3.getText().toString()));

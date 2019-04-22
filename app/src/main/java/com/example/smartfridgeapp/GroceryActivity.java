@@ -49,6 +49,13 @@ public class GroceryActivity extends AppCompatActivity {
         adapter = new GroceryAdapter(this, list);
         rv.setAdapter(adapter);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
     public static<T> HashSet<T> clone(Set<T> original) {
         HashSet<T> copy = new HashSet<>(original);
         return copy;

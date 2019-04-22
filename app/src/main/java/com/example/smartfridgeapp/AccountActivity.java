@@ -20,5 +20,11 @@ public class AccountActivity extends AppCompatActivity {
         acname.setText("User Name: " + PreferenceManager.getDefaultSharedPreferences(this).getString("display_name", "John Doe"));
         
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 }
 

@@ -64,7 +64,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.ViewHolder
 
         void bindData(Recipe recipe) {
             txt_title.setText(recipe.getTitle());
-            txt_nums.setText("Have: " + recipe.getUsedIngredientCount() + "  Missing: " + recipe.getMissedIngredientCount());
+            txt_nums.setText("Have: " + recipe.getUsedIngredientCount() + "\nMissing: " + recipe.getMissedIngredientCount());
             txt_likes.setText("Likes: " + recipe.getLikes());
             Picasso.get().load(recipe.getImage()).placeholder(R.drawable.default_sign_in_logo)
                     .error(R.drawable.ic_launcher_background).fit().centerCrop().into(image);
