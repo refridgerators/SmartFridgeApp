@@ -139,7 +139,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Toast.makeText(getBaseContext(), " " + position, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getBaseContext(), " " + position, Toast.LENGTH_SHORT).show();
+
+                        //mAdapter.getmData().get(1).id(); get id
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
                         Intent i = new Intent(MainActivity.this, EditGroceryItem.class);
                         i.putExtra("edit",true);
                         i.putExtra("id",mAdapter.getmData().get(position).id());
@@ -147,11 +152,6 @@ public class MainActivity extends AppCompatActivity {
                         i.putExtra("quantity",mAdapter.getmData().get(position).quantity());
                         i.putExtra("unit",mAdapter.getmData().get(position).description());
                         startActivity(i);
-                        //mAdapter.getmData().get(1).id(); get id
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
                     }
                 })
         );

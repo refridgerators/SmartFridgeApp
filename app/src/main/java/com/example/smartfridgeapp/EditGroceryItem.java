@@ -77,7 +77,7 @@ public class EditGroceryItem extends Activity {
                     intquant = Integer.parseInt(quantity.getText().toString());
                 }
                 updateQuantity(i.getStringExtra("id"),intquant);
-                finish();
+                //finish();
             }
         });
 
